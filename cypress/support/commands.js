@@ -33,4 +33,4 @@ Cypress.Commands.add('fillMandatoryFieldsAndSubmit', function() {
     cy.get('#open-text-area').type(longText, { delay: 0 })
     cy.get('button[type="submit"]').click()
     cy.get('.success').should('be.visible')
-})
+});
