@@ -17,7 +17,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
     })
 
-    //Exercício Extra 01
+    //Seção 03 - Exercício Extra 01
     it('Preenche os campos obrigatórios e envia o formulário', function() {
         const longText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum excepturi, soluta totam tempora veritatis debitis animi beatae fugit facilis modi sint. Cum laudantium possimus nulla aperiam tempora! Error, modi magnam. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum excepturi, soluta totam tempora veritatis debitis animi beatae fugit facilis modi sint. Cum laudantium possimus nulla aperiam tempora! Error, modi magnam. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum excepturi, soluta totam tempora veritatis debitis animi beatae fugit facilis modi sint. Cum laudantium possimus nulla aperiam tempora! Error, modi magnam. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum excepturi, soluta totam tempora veritatis debitis animi beatae fugit facilis modi sint. Cum laudantium possimus nulla aperiam tempora! Error, modi magnam.'
 
@@ -30,7 +30,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('.success').should('be.visible')
     })
     
-    //Exercício Extra 02
+    //Seção 03 - Exercício Extra 02
     it('Exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function() {
         cy.get('#firstName').type('Wesley')
         cy.get('#lastName').type('Santos')
@@ -41,14 +41,14 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('.error').should('be.visible')
     })
 
-    //Exercício Extra 03
+    //Seção 03 - Exercício Extra 03
     it('Campo telefone continua vazio quandpo preenchido com valor não numérico', function() {
         cy.get('#phone')
             .type('ABCDEFGHIJ')
             .should('have.value', '')
     })
 
-    //Exercício Extra 04
+    //Seção 03 - Exercício Extra 04
     it('Exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function() {
         cy.get('#firstName').type('Wesley')
         cy.get('#lastName').type('Santos')
@@ -61,7 +61,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('.error').should('be.visible')
     })
 
-    //Exercício Extra 05
+    //Seção 03 - Exercício Extra 05
     it('Preenche e limpa os campos nome, sobrenome, email e telefone', function() {
         cy.get('#firstName')
           .type('Wesley')
@@ -94,20 +94,83 @@ describe('Central de Atendimento ao Cliente TAT', function() {
           .should('have.value', '')
     })
 
-    //Exercício Extra 06
+    //Seção 03 - Exercício Extra 06
     it('Exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function() {
         cy.get('button[type="submit"]').click()
         cy.get('.error').should('be.visible')
     })
 
-    //Exercício Extra 07
+    //Seção 03 - Exercício Extra 07
     it('Envia o formuário com sucesso usando um comando customizado', function() {
         cy.fillMandatoryFieldsAndSubmit()
     })
 
-    //Exercício Extra 08
+    //Seção 03 - Exercício Extra 08
     it('Utilização do cy.contains()', function() {
         cy.contains('button', 'Enviar').click()
+        cy.get('.error').should('be.visible')
+    })
+
+    //Seção 04 - Exercício 
+    it('Seleciona um produto (YouTube) por seu texto', function() {
+        cy.get('#product')
+          .select('YouTube')
+          .should('have.value', 'youtube')
+    })
+
+    //Seção 04 - Exercício Extra 01
+    it('Seleciona um produto (Mentoria) por seu valor (value)', function() {
+        cy.get('#product')
+          .select('mentoria')
+          .should('have.value', 'mentoria')
+    })
+
+    //Seção 04 - Exercício Extra 02
+    it('Seleciona um produto (Blog) por seu índice', function() {
+        cy.get('#product')
+          .select(1)
+          .should('have.value', 'blog')
+    })
+
+    //Seção 05 - Exercício
+    it('Marca o tipo de atendimento "Feedback"', function() {
+        cy.get('input[type="radio"][value="feedback"]')
+          .check()
+          .should('have.value', 'feedback')
+          .should('be.checked')
+    })
+
+    //Seção 05 - Exercício Extra 01
+    it('Marca cada tipo de atendimento', function() {
+        cy.get('input[type="radio"]')
+          .should('have.length', 3)
+          .each(function($radio) {
+            cy.wrap($radio).check()
+            cy.wrap($radio).should('be.checked')
+        })
+    })
+
+    //Seção 06 - Exercício
+
+    it('Marca ambos checkboxes, depois desmarca o último', function() {
+        cy.get('input[type="checkbox"]')
+          .check()
+          .should('be.checked')
+          .last()
+          .uncheck()
+          .should('not.be.checked')
+    })
+
+    //Seção 06 - Exercício Extra 01
+    it('Exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function() {
+        cy.get('#firstName').type('Wesley')
+        cy.get('#lastName').type('Santos')
+        cy.get('#email').type('wsws@gmail.com')
+        cy.get('#phone-checkbox').check()
+        cy.get('#phone').type('ABCDEFGHIJ')
+        cy.get('#open-text-area').type('Teste', { delay: 0 })
+        cy.get('button[type="submit"]').click()
+
         cy.get('.error').should('be.visible')
     })
 })
