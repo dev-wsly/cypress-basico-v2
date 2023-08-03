@@ -219,4 +219,19 @@ describe('Central de Atendimento ao Cliente TAT', function() {
       cy.contains('CAC TAT - Política de privacidade')
         .should('be.visible')
     })
+
+    it('Desafio (encontre o gato)', function() {
+      cy.get('#cat')
+        .should('not.be.visible')
+        .invoke('show')
+        .should('be.visible')
+
+      cy.get('#title')
+        .invoke('text', 'BASKETBALL')
+        .should('contain', 'BASKETBALL')
+
+      cy.get('#subtitle')
+        .invoke('text', 'NBA é muito melhor que NBB')
+        .should('contain', 'NBA é muito melhor que NBB')
+    })
 })
