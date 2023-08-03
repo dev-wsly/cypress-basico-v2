@@ -219,10 +219,4 @@ describe('Central de Atendimento ao Cliente TAT', function() {
       cy.contains('CAC TAT - Política de privacidade')
         .should('be.visible')
     })
-
-    //Seção 08 - Exercício
-    //"mobile": "cypress open --config viewportWidth=410 viewportHeight=860",
-
-    //Seção 08 - Exercício Extra 01
-    //"headless": "cypress run --config viewportWidth=410 viewportHeight=860",
 })
