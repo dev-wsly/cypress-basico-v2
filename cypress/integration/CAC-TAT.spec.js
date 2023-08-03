@@ -227,11 +227,11 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         .should('be.visible')
 
       cy.get('#title')
-        .invoke('contains', 'BASKETBALL')
-        .should('be.equal', 'BASKETBALL')
+        .invoke('text', 'BASKETBALL')
+        .should('contains', 'BASKETBALL')
 
       cy.get('#subtitle')
-        .invoke('contains', 'NBA é muito melhor que NBB')
-        .should('be.equal', 'NBA é muito melhor que NBB')
+        .invoke('text', 'NBA é muito melhor que NBB')
+        .should('contains', 'NBA é muito melhor que NBB')
     })
 })
