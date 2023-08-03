@@ -195,4 +195,34 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     })
 
     //Seção 07 - Exercício Extra 02
+    it('Seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', function() {
+        cy.fixture('example.json').as('sampleFile')
+        cy.get('#file-upload')
+        .should('not.have.value')
+        .selectFile('@sampleFile', {action: 'drag-drop'})
+        .should(function($input) {
+            expect($input[0].files[0].name).to.equal('example.json')
+        })
+    })
+
+    //Seção 08 - Exercício
+    it('Verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', function() {
+      cy.get('#privacy a').should('have.attr', 'target', '_blank')
+    })
+
+    //Seção 08 - Exercício Extra 01
+    it('Acessa a página da política de privacidade removendo o target e então clicando no link', function() {
+      cy.get('#privacy a')
+        .invoke('removeAttr', 'target')
+        .click()
+
+      cy.contains('CAC TAT - Política de privacidade')
+        .should('be.visible')
+    })
+
+    //Seção 08 - Exercício
+    //"mobile": "cypress open --config viewportWidth=410 viewportHeight=860",
+
+    //Seção 08 - Exercício Extra 01
+    //"headless": "cypress run --config viewportWidth=410 viewportHeight=860",
 })
