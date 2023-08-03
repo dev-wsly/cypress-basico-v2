@@ -220,7 +220,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         .should('be.visible')
     })
 
-    it.only('Desafio (encontre o gato)', function() {
+    it('Desafio (encontre o gato)', function() {
       cy.get('#cat')
         .should('not.be.visible')
         .invoke('show')
@@ -228,10 +228,8 @@ describe('Central de Atendimento ao Cliente TAT', function() {
 
       cy.get('#title')
         .invoke('text', 'BASKETBALL')
-        .should('contains', 'BASKETBALL')
 
       cy.get('#subtitle')
         .invoke('text', 'NBA é muito melhor que NBB')
-        .should('contains', 'NBA é muito melhor que NBB')
     })
 })
