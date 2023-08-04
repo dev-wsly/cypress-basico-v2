@@ -21,6 +21,8 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     it('Preenche os campos obrigatórios e envia o formulário', function() {
         const longText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum excepturi, soluta totam tempora veritatis debitis animi beatae fugit facilis modi sint. Cum laudantium possimus nulla aperiam tempora! Error, modi magnam. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum excepturi, soluta totam tempora veritatis debitis animi beatae fugit facilis modi sint. Cum laudantium possimus nulla aperiam tempora! Error, modi magnam. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum excepturi, soluta totam tempora veritatis debitis animi beatae fugit facilis modi sint. Cum laudantium possimus nulla aperiam tempora! Error, modi magnam. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum excepturi, soluta totam tempora veritatis debitis animi beatae fugit facilis modi sint. Cum laudantium possimus nulla aperiam tempora! Error, modi magnam.'
 
+        cy.clock()
+
         cy.get('#firstName').type('Wesley')
         cy.get('#lastName').type('Santos')
         cy.get('#email').type('wsws@gmail.com')
@@ -28,10 +30,14 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('button[type="submit"]').click()
 
         cy.get('.success').should('be.visible')
+        cy.tick(3000)
+        cy.get('.success').should('not.be.visible')
     })
     
     //Seção 03 - Exercício Extra 02
     it('Exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function() {
+      cy.clock()
+
         cy.get('#firstName').type('Wesley')
         cy.get('#lastName').type('Santos')
         cy.get('#email').type('wsws-gmail.com') //E-mail inválido
@@ -39,17 +45,23 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('button[type="submit"]').click()
 
         cy.get('.error').should('be.visible')
+        cy.tick(3000)
+        cy.get('.error').should('not.be.visible')
     })
 
     //Seção 03 - Exercício Extra 03
-    it('Campo telefone continua vazio quandpo preenchido com valor não numérico', function() {
-        cy.get('#phone')
+    Cypress._.times(5, function() {
+      it('Campo telefone continua vazio quando preenchido com valor não numérico', function() {
+            cy.get('#phone')
             .type('ABCDEFGHIJ')
             .should('have.value', '')
+      })
     })
 
     //Seção 03 - Exercício Extra 04
     it('Exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function() {
+        cy.clock()
+      
         cy.get('#firstName').type('Wesley')
         cy.get('#lastName').type('Santos')
         cy.get('#email').type('wsws@gmail.com')
@@ -59,6 +71,8 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('button[type="submit"]').click()
 
         cy.get('.error').should('be.visible')
+        cy.tick(3000)
+        cy.get('.error').should('not.be.visible')
     })
 
     //Seção 03 - Exercício Extra 05
@@ -96,13 +110,20 @@ describe('Central de Atendimento ao Cliente TAT', function() {
 
     //Seção 03 - Exercício Extra 06
     it('Exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function() {
+        cy.clock()
         cy.get('button[type="submit"]').click()
         cy.get('.error').should('be.visible')
+        cy.tick(3000)
+        cy.get('.error').should('not.be.visible')
     })
 
     //Seção 03 - Exercício Extra 07
     it('Envia o formuário com sucesso usando um comando customizado', function() {
+        cy.clock()
         cy.fillMandatoryFieldsAndSubmit()
+        cy.get('.success').should('be.visible')
+        cy.tick(3000)
+        cy.get('.success').should('not.be.visible')
     })
 
     //Seção 03 - Exercício Extra 08
@@ -218,6 +239,41 @@ describe('Central de Atendimento ao Cliente TAT', function() {
 
       cy.contains('CAC TAT - Política de privacidade')
         .should('be.visible')
+    })
+    
+    it('exibe e esconde as mensagens de sucesso e erro usando o .invoke', function() {
+      cy.get('.success')
+      .should('not.be.visible')
+      .invoke('show')
+      .should('be.visible')
+          .and('contain', 'Mensagem enviada com sucesso.')
+          .invoke('hide')
+          .should('not.be.visible')
+        cy.get('.error')
+          .should('not.be.visible')
+          .invoke('show')
+          .should('be.visible')
+          .and('contain', 'Valide os campos obrigatórios!')
+          .invoke('hide')
+          .should('not.be.visible')
+    })
+
+    it('Preenche a área de texto usando o invoke()', function() {
+        const longText = Cypress._.repeat('Cypress ', 300)
+
+        cy.get('#open-text-area')
+          .invoke('val', longText)
+          .should('have.value', longText)
+    })
+
+    it('Faz uma requisição HTTP', function() {
+        cy.request('https://cac-tat.s3.eu-central-1.amazonaws.com/index.html')
+          .should(function(response) {
+              const {status, statusText, body} = response
+              expect(status).to.equal(200)
+              expect(statusText).to.equal('OK')
+              expect(body).to.include('CAC TAT')
+            })
     })
 
     it('Desafio (encontre o gato)', function() {
