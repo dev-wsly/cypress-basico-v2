@@ -283,9 +283,9 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         .should('be.visible')
 
       cy.get('#title')
-        .invoke('text', 'BASKETBALL')
+        .invoke('text', 'NOVO TÍTULO')
 
       cy.get('#subtitle')
-        .invoke('text', 'NBA é muito melhor que NBB')
+        .invoke('text', 'Alteração de texto com o comando invoke')
     })
 })
